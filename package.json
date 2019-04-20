@@ -1,0 +1,15 @@
+{
+  "name": "battlesnake",
+  "version": "0.0.1",
+  "description": "Snake for Battlestake",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^2.3.0",
+    "pino-pretty": "^2.6.0"
+  }
+}
