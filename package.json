@@ -4,12 +4,16 @@
   "description": "Snake for Battlestake",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fastify": "^2.3.0",
     "pino-pretty": "^2.6.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
   }
 }
