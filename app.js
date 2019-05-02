@@ -8,7 +8,7 @@ const config = {
         tailType: 'round-bum'
     },
     output: {
-        board: true
+        board: false
     },
     logger: {
         prettyPrint: {
@@ -18,7 +18,7 @@ const config = {
 }
 
 const fastify = require('fastify')({
-    logger: config.logger
+    logger: false
 })
 
 const strategies = require('./logic/strategy');
@@ -35,7 +35,7 @@ fastify.post('/start', (request, response) => {
 fastify.post('/move', (request, response) => {
 
     const board = game.gameBoard(request.body.board);
-    const me = request.you;
+    const me = request.body.you;
 
     // Display board in console
     if (config.output.board) {
@@ -46,7 +46,7 @@ fastify.post('/move', (request, response) => {
     }
 
     // Get move
-    const move = strategies.basic(board);
+    const move = strategies.basic(board, me);
 
     response.send({
         "move": move
