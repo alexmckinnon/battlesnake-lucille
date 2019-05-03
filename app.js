@@ -63,7 +63,7 @@ fastify.post('/ping', (request, response) => {
     response.send();
 })
 
-fastify.listen(config.port, (error, port) => {
+fastify.listen(config.port, '0.0.0.0', (error, port) => {
     if (error) {
         fastify.log.error(error);
         process.exit(1);
