@@ -12,7 +12,7 @@ function basic(board, me) {
     const moves = availableMoves(me.body[0], board);
 
     // Forced to commit suicide
-    if (!moves) {
+    if (!moves.length) {
         return 'down';
     }
 
@@ -21,8 +21,19 @@ function basic(board, me) {
         return moves[0].direction;
     }
 
-    const random = Math.floor(Math.random() * moves.length);
-    return moves[random].direction;
+    // Todo:
+    // Check if any moves are potential head-ons and adjust weight
+    // check if move leads to dead end
+
+    // Filter highest weighted moves
+    const weight = Math.max(...moves.map(move => move.weight), 0);
+    const weightedMoves = moves.filter((move) => {
+        return move.weight == weight;
+    });
+
+    // Choose random direction from weighted 
+    const random = Math.floor(Math.random() * weightedMoves.length);
+    return weightedMoves[random].direction;
 }
 
 /**
@@ -36,14 +47,22 @@ function availableMoves(head, board) {
     let moves = [];
 
     const options = [
-        {  direction: 'up',    x: head.x,      y: head.y - 1  },
-        {  direction: 'down',  x: head.x,      y: head.y + 1  },
-        {  direction: 'left',  x: head.x - 1,  y: head.y      },
-        {  direction: 'right', x: head.x + 1,  y: head.y      },
+        {  direction: 'up',    x: head.x,      y: head.y - 1,  weight: 0  },
+        {  direction: 'down',  x: head.x,      y: head.y + 1,  weight: 0  },
+        {  direction: 'left',  x: head.x - 1,  y: head.y,      weight: 0  },
+        {  direction: 'right', x: head.x + 1,  y: head.y,      weight: 0  },
     ]
     
     options.forEach((option) => {
+        if (outOfBounds(option.x, option.y, board.length - 1)) {
+            return;
+        }
         if (openSpace(option.x, option.y, board)) {
+            option.weight = 1;
+            moves.push(option);
+        }
+        if (isFood(option.x, option.y, board)) {
+            option.weight = 2;
             moves.push(option);
         }
     });
@@ -59,14 +78,18 @@ function availableMoves(head, board) {
  * @returns {Boolean}
  */
 function openSpace(x, y, board) {
+    return board[y][x] == '_';
+}
 
-    if (outOfBounds(x, y, board.length - 1)) {
-        return false;
-    }
-
-    const openSpaces = ['_', 'o'];
-
-    return openSpaces.includes(board[y][x]);
+/**
+ * Check if x/y coordinates are food
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Object} board
+ * @returns {Boolean}
+ */
+function isFood(x, y, board) {
+    return board[y][x] == 'o';
 }
 
 /**
