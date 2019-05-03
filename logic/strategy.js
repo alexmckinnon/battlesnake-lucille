@@ -11,12 +11,18 @@ function basic(board, me) {
     // Get available moves
     const moves = availableMoves(me.body[0], board);
 
+    // Forced to commit suicide
+    if (!moves) {
+        return 'down';
+    }
+
     // If only one, go there
     if (moves.length === 1) {
         return moves[0].direction;
     }
 
-    return moves[Math.floor(Math.random()*moves.length)].direction;
+    const random = Math.floor(Math.random() * moves.length);
+    return moves[random].direction;
 }
 
 /**
