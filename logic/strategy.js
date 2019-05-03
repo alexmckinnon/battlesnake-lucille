@@ -7,9 +7,16 @@
 function basic(board, me) {
 
     const head = me.body[0];
+
+    // Get available moves
     const moves = availableMoves(me.body[0], board);
 
-    return moves[Math.floor(Math.random()*moves.length)]
+    // If only one, go there
+    if (moves.length === 1) {
+        return moves[0].direction;
+    }
+
+    return moves[Math.floor(Math.random()*moves.length)].direction;
 }
 
 /**
@@ -31,7 +38,7 @@ function availableMoves(head, board) {
     
     options.forEach((option) => {
         if (openSpace(option.x, option.y, board)) {
-            moves.push(option.direction);
+            moves.push(option);
         }
     });
 
@@ -47,7 +54,7 @@ function availableMoves(head, board) {
  */
 function openSpace(x, y, board) {
 
-    if (outOfBounds(x, y, board.length)) {
+    if (outOfBounds(x, y, board.length - l)) {
         return false;
     }
 
