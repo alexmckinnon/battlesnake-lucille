@@ -20,34 +20,51 @@ function basic(board, me) {
  */
 function availableMoves(head, board) {
 
-    let moves = ['up','right','down','left'];
-    const openSpaces = ['_', 'o'];
+    let moves = [];
 
-    // check if up is open
-    if (head.y === 0 || !openSpaces.includes(board[head.y - 1][head.x])) {
-        let index = moves.indexOf('up');
-        moves.splice(index, 1);
-    }
-
-    // check if down is open
-    if (head.y === board.length - 1 || !openSpaces.includes(board[head.y + 1][head.x])) {
-        let index = moves.indexOf('down');
-        moves.splice(index, 1);
-    }
-
-    // check if left is open
-    if (head.x === 0 || !openSpaces.includes(board[head.y][head.x - 1])) {
-        let index = moves.indexOf('left');
-        moves.splice(index, 1);
-    }
-
-    // check if right is open
-    if (head.x === board.length - 1 || !openSpaces.includes(board[head.y][head.x + 1])) {
-        let index = moves.indexOf('right');
-        moves.splice(index, 1);
-    }
+    const options = [
+        {  direction: 'up',    x: head.x,      y: head.y - 1  },
+        {  direction: 'down',  x: head.x,      y: head.y + 1  },
+        {  direction: 'left',  x: head.x - 1,  y: head.y      },
+        {  direction: 'right', x: head.x + 1,  y: head.y      },
+    ]
+    
+    options.forEach((option) => {
+        if (openSpace(option.x, option.y, board)) {
+            moves.push(option.direction);
+        }
+    });
 
     return moves;
+}
+
+/**
+ * Check if x/y coordinates are an open spot on the board
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Object} board 
+ * @returns {Boolean}
+ */
+function openSpace(x, y, board) {
+
+    if (outOfBounds(x, y, board.length)) {
+        return false;
+    }
+
+    const openSpaces = ['_', 'o'];
+
+    return openSpaces.includes(board[y][x]);
+}
+
+/**
+ * Check of x or y is outside grid
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} max
+ * @returns {Boolean}
+ */
+function outOfBounds(x, y, max) {
+    return (x < 0 || y < 0 || x > max || y > max);
 }
 
 module.exports = { basic } 
