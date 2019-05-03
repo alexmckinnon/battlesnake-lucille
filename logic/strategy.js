@@ -23,7 +23,12 @@ function basic(board, me) {
 
     // Todo:
     // Check if any moves are potential head-ons and adjust weight
-    // check if move leads to dead end
+    // Seek food
+    // Seek heads of lesser snakes
+    //headOnCollisonCheck(moves, board);
+
+    // Check if moves lead to dead ends and adjust weights
+    checkForDeadEnds(moves, board);
 
     // Filter highest weighted moves
     const weight = Math.max(...moves.map(move => move.weight), 0);
@@ -58,11 +63,11 @@ function availableMoves(head, board) {
             return;
         }
         if (openSpace(option.x, option.y, board)) {
-            option.weight = 1;
+            option.weight += 1;
             moves.push(option);
         }
         if (isFood(option.x, option.y, board)) {
-            option.weight = 2;
+            option.weight += 3;
             moves.push(option);
         }
     });
@@ -101,6 +106,35 @@ function isFood(x, y, board) {
  */
 function outOfBounds(x, y, max) {
     return (x < 0 || y < 0 || x > max || y > max);
+}
+
+/**
+ * Check each potential next move to see if it leads to a dead end
+ * If it does set it's weight to 0
+ * @param {Object} moves
+ * @param {Object} board
+ */
+function checkForDeadEnds(moves, board) {
+    moves.forEach((move, index) => {
+        let nextMoves = [];
+        const nextOptions = [
+            {  x: move.x,      y: move.y - 1  },
+            {  x: move.x,      y: move.y + 1  },
+            {  x: move.x - 1,  y: move.y      },
+            {  x: move.x + 1,  y: move.y      },
+        ];
+
+        nextOptions.forEach((option) => {
+            if (!outOfBounds(option.x, option.y, board.length - 1)
+                && ( openSpace(option.x, option.y, board) || isFood(option.x, option.y, board) )) {
+                nextMoves.push(option);
+            }
+        })
+
+        if (nextMoves.length == 0) {
+            moves[index].weight = 0;
+        }
+    });
 }
 
 module.exports = { basic } 
