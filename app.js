@@ -14,8 +14,10 @@ const config = {
         prettyPrint: {
             prettyPrint: true
         }
-    }
+    },
+    port: process.env.PORT || 5000
 }
+
 
 const fastify = require('fastify')({
     logger: false
@@ -61,7 +63,7 @@ fastify.post('/ping', (request, response) => {
     response.send();
 })
 
-fastify.listen(80, (error, port) => {
+fastify.listen(config.port, (error, port) => {
     if (error) {
         fastify.log.error(error);
         process.exit(1);
