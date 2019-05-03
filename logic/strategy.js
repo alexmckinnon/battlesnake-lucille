@@ -54,7 +54,7 @@ function availableMoves(head, board) {
  */
 function openSpace(x, y, board) {
 
-    if (outOfBounds(x, y, board.length - l)) {
+    if (outOfBounds(x, y, board.length - 1)) {
         return false;
     }
 
