@@ -1,13 +1,13 @@
 {
-  "name": "battlesnake",
-  "version": "0.0.1",
+  "name": "battlesnake-lucille",
+  "version": "1.0.0",
   "description": "Snake for Battlestake",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
   },
-  "author": "",
+  "author": "Alex McKinnon <alex.r.mckinnon@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "fastify": "^2.3.0",
