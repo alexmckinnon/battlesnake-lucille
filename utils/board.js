@@ -28,4 +28,16 @@ function gameBoard(data) {
 
 }
 
-module.exports = { gameBoard }
+/**
+ * Add a head property to each snake on the board to find snake by head position
+ * @param {Object} snakes
+ * @returns {Object}
+ */
+function otherSnakes(snakes) {
+    snakes.forEach((snake, index) => {
+        snakes[index].head = snake.body[0].x + '.' + snake.body[0].y;
+    })
+    return snakes;
+}
+
+module.exports = { gameBoard, otherSnakes }
