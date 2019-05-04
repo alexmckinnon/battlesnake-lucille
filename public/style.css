@@ -1,0 +1,27 @@
+body {
+    background: #CACAAA;
+}
+
+img.lucille {
+    border-radius: 50%;
+    background-color: #ADD8E6;
+    margin-top: 50px;   
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content {
+    text-align: center;
+    font-family:'Lucida Sans', Geneva, Verdana, sans-serif;
+}
+
+.content h1 {
+    margin-bottom: 0;
+}
+
+.content p a {
+    margin-top: 0;
+    text-decoration: none;
+    color: #333;
+}
