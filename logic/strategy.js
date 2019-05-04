@@ -186,13 +186,11 @@ function checkForHeadOnCollisons(moves, board, me, snakes) {
                 }
             }
         });
-        if (snakeHead) {
-            if (prey) {
-                moves[index].prey = true;
-                moves[index].weight = 0;
-            } else if (hunter) {
-                moves[index].hunter = true;
-            }
+        if (prey) {
+            moves[index].prey = true;
+            moves[index].weight = 0;
+        } else if (hunter) {
+            moves[index].hunter = true;
         }
     });
 }
