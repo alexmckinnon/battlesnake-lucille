@@ -1,5 +1,9 @@
 'use strict'
 
+const path = require('path')
+const strategies = require('./logic/strategy');
+const game = require('./utils/board');
+
 const config = {
     snake: {
         name: 'Lucille',
@@ -18,16 +22,18 @@ const config = {
     port: process.env.PORT || 5000
 }
 
-
 const fastify = require('fastify')({
     logger: false
 })
 
-const strategies = require('./logic/strategy');
-const game = require('./utils/board');
+fastify.register(require('fastify-static'), {
+  root: path.join(__dirname, 'public'),
+  prefix: '/public/'
+})
+
 
 fastify.get('/', function (request, response) {
-    response.send('Battlesnake');
+    response.sendFile('index.html')
 })
 
 fastify.post('/start', (request, response) => {
@@ -38,6 +44,7 @@ fastify.post('/move', (request, response) => {
 
     const board = game.gameBoard(request.body.board);
     const me = request.body.you;
+    const snakes = game.otherSnakes(request.body.board.snakes);    
 
     // Display board in console
     if (config.output.board) {
@@ -48,7 +55,7 @@ fastify.post('/move', (request, response) => {
     }
 
     // Get move
-    const move = strategies.basic(board, me);
+    const move = strategies.basic(board, me, snakes);
 
     response.send({
         "move": move
