@@ -12,7 +12,8 @@ const config = {
         tailType: 'round-bum'
     },
     output: {
-        board: false
+        board: false,
+        moves: false
     },
     logger: {
         prettyPrint: {
@@ -55,7 +56,7 @@ fastify.post('/move', (request, response) => {
     }
 
     // Get move
-    const move = strategies.basic(board, me, snakes);
+    const move = strategies.basic(board, me, snakes, config);
 
     response.send({
         "move": move

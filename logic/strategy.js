@@ -3,13 +3,15 @@
  * @param {Object} board
  * @param {Object} me
  * @param {Object} snakes
+ * @param {Object} config
  * @returns String 
  */
-function basic(board, me, snakes) {
+function basic(board, me, snakes, config) {
 
     const head = me.body[0];
 
     // Get available moves
+    // Todo: snake tails are open spaces next turn
     const moves = availableMoves(me.body[0], board);
 
     // Forced to commit suicide
@@ -24,7 +26,7 @@ function basic(board, me, snakes) {
     
     // Check if any moves are potential head-ons and adjust weight
     // Todo: finish this << IMPORTANT
-    checkForHeadOnCollisons(moves, board, me, snakes);
+    //checkForHeadOnCollisons(moves, board, me, snakes);
 
     // Todo:
     // Seek food
@@ -35,6 +37,8 @@ function basic(board, me, snakes) {
     // Todo: dead end check doesn't account for if you could kill a snake by going this way and opening up a path
     checkForDeadEnds(moves, board);
 
+    //if health is under X increase weight of directions that lead to food
+
     // Filter highest weighted moves
     // Todo: use hunter/prey checks and favour hunter
     const weight = Math.max(...moves.map(move => move.weight), 0);
@@ -42,6 +46,10 @@ function basic(board, me, snakes) {
         return move.weight == weight;
     });
 
+    if (config.output.moves) {
+        console.log(moves);
+    }
+    
     // Choose random direction from weighted 
     const random = Math.floor(Math.random() * weightedMoves.length);
     return weightedMoves[random].direction;
@@ -167,10 +175,10 @@ function checkForHeadOnCollisons(moves, board, me, snakes) {
         let hunter = false;
         let prey = false;
         let snakeHead = false;
-        surroudingCoordinates.forEach((move) => {
-            snakeHead = isSnakeHead(move.x, move.y, board);
+        surroudingCoordinates.forEach((surrounding) => {
+            snakeHead = isSnakeHead(surrounding.x, surrounding.y, board);
             if (snakeHead) {
-                let otherSnakeLength = getSnakeLength(move.x, move.y, snakes);
+                let otherSnakeLength = getSnakeLength(surrounding.x, surrounding.y, snakes);
                 if (otherSnakeLength >= myLength) {
                     prey = true;
                 }
@@ -182,10 +190,9 @@ function checkForHeadOnCollisons(moves, board, me, snakes) {
         if (snakeHead) {
             if (prey) {
                 moves[index].prey = true;
-                moves[index].weight = -1;
+                moves[index].weight = 0;
             } else if (hunter) {
                 moves[index].hunter = true;
-                moves[index].weight += 1;
             }
         }
     });
