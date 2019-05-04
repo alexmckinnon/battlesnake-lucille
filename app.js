@@ -43,8 +43,8 @@ fastify.post('/start', (request, response) => {
 
 fastify.post('/move', (request, response) => {
 
-    const board = game.gameBoard(request.body.board);
     const me = request.body.you;
+    const board = game.gameBoard(request.body.board, me);
     const snakes = game.otherSnakes(request.body.board.snakes);    
 
     // Display board in console

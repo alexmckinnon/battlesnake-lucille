@@ -1,9 +1,10 @@
 /**
  * Construct grid with snakes and food positioned on board
  * @param {Object} data 
+ * @param {Object} me 
  * @returns {Array}
  */
-function gameBoard(data) {
+function gameBoard(data, me) {
 
     // Construct empty board
     let board = [];
@@ -23,7 +24,10 @@ function gameBoard(data) {
         });
         board[snake.body[0].y][snake.body[0].x] = 'H';
     });
-    
+
+    // Set my head to M
+    board[me.body[0].y][me.body[0].x] = 'M';
+
     return board;
 
 }

@@ -25,8 +25,7 @@ function basic(board, me, snakes, config) {
     }
     
     // Check if any moves are potential head-ons and adjust weight
-    // Todo: finish this << IMPORTANT
-    //checkForHeadOnCollisons(moves, board, me, snakes);
+    checkForHeadOnCollisons(moves, board, me, snakes);
 
     // Todo:
     // Seek food
