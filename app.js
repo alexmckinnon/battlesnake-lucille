@@ -3,7 +3,7 @@
 const config = {
     snake: {
         name: 'Lucille',
-        color: '#7d7d7c',
+        color: '#8B8BA0',
         headType: 'safe',
         tailType: 'round-bum'
     },
