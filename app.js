@@ -63,6 +63,8 @@ fastify.post('/ping', (request, response) => {
     response.send();
 })
 
+fastify.setNotFoundHandler((request, response) => response.redirect('/'));
+
 fastify.listen(config.port, '0.0.0.0', (error, port) => {
     if (error) {
         fastify.log.error(error);
