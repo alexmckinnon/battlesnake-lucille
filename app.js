@@ -49,7 +49,7 @@ fastify.post('/move', (request, response) => {
 
     // Display board in console
     if (config.output.board) {
-        console.log('board:');
+        console.log('board (turn ' + request.body.turn + '):');
         board.forEach((row) => {
             console.log(row.join(' | ') + ' |');
         });
